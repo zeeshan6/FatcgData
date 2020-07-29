@@ -7,45 +7,60 @@ import {
     TextInput,
     Modal,
     FlatList,
-    Button
+    Button,
+    TouchableOpacity,
+    ToastAndroid,
+    Alert
 } from 'react-native';
 import {setUserData} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
 
-// SHow Modal Alert
-// class ShowModal  {
-//     <Modal>
-//         <View>
+// UserList Class
+class UserList extends Component{
+    render(){
+        return(
+            <TouchableOpacity style={styles.buttonContainer} onPress={()=>{
+                // Add Modal Link Show Some User Data
+            }}>
+                <Text style={styles.buttonHeading}>{this.state.userName}</Text>
+                <Button title='Open Github Profile' onPress={()=>{
+                    // Add Git Hub Link
+                }}/>
+            </TouchableOpacity>
+        );
+    }
+}
 
-//         </View>
-//     </Modal>
-// }
 
-
-export default class Home extends React.Component {
+class Home extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             userName : '',
-            userData: []
+            avator: '',
+            followers: '',
+            following: '',
+            location: '',
+            githubLink: '',
         };
     }
-    
-    componentDidMount(){
 
-    }
+    // componentDidMount(){
+    //     this.GetDataInGitHub();
+    // }
 
     GetDataInGitHub(){
-        return fetch('https://api.github.com/users').then((response) => {
-            this.setState({
-                userData: response.users
-            });
-        }).catch((error) => {
-            console.error(error);
-        });
+        fetch('https://api.github.com/users/zeeshan6').then(res=>res.json()).then(data=>{Alert.alert("Data",JSON.stringify(data))}).catch=(error)=>{console.error(error)};
+        
     }
 
+
+    RenderItem = ({item, index}) => {
+        <UserList index={index} />
+    }
+
+    keyExtractor = (item, index) => index.toString();
 
     render(){
         return(
@@ -63,12 +78,11 @@ export default class Home extends React.Component {
                     this.GetDataInGitHub();
                 }} />
 
-
-                <FlatList 
+                {/* <FlatList 
                     data = {this.state.userData}
-                    renderItem = {}
-                    keyExtractor = {(item, index) => index}
-                />
+                    renderItem = {this.RenderItem}
+                    keyExtractor = {this.keyExtractor}
+                /> */}
             </View>
         );
     }
@@ -76,7 +90,7 @@ export default class Home extends React.Component {
 
 const mapStateToProps = (state) => {
     return{
-        getUsersData: getUsersData(state,this.state.userData)
+        getUsersData: getUsersData(state)
     }
 }
 
