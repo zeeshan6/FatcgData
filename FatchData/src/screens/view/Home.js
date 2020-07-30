@@ -11,12 +11,16 @@ import {
     TouchableOpacity,
     ToastAndroid,
     Alert,
-    ListView
+    ListView,
+    TouchableHighlight,
+    Image,
+    TouchableWithoutFeedback
 } from 'react-native';
 import {setUserData} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
 import { ListItem } from 'react-native-elements';
+// import { Icon } from 'react-native-vector-icons/Icon';
 
 // UserList Class
 class UserList extends Component{
@@ -52,8 +56,11 @@ class Home extends React.Component {
             message: '',
             email: '',
             error: null,
-            userInput: ''
+            userInput: '',
+            isModal: false
         };
+
+        this.SaveDataOnStore = this.SaveDataOnStore.bind(this);
     }
 
     GetDataOnGitHub(){
@@ -100,9 +107,12 @@ class Home extends React.Component {
         };
     }
 
-    // keyExtractor = (item, index) => index.toString();
+    SaveDataOnStore = () =>{
+        Alert.alert("Data","Testiing")
+    }
 
     render(){
+        const isModal = this.state.isModal;
         return(
             <View style={styles.container}>
                 <Text style={styles.TextHeading}>GitHub User</Text>
@@ -120,7 +130,28 @@ class Home extends React.Component {
                         this.GetDataOnGitHub();
                     }} />
                 </View>
+                 
+                <View style={styles.containerModal}>
+
+                    <Image
+                        style={styles.tinyLogo}
+                        source={{
+                            uri: 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg',
+                        }}
+                    />
                     
+                    <Text style={styles.textStyle}>Show Modal</Text>
+
+                    
+                    <TouchableHighlight
+                        style={styles.openButton}
+                        onPress={() => {
+                            this.SaveDataOnStore();
+                        }}
+                    >                  
+                        <Text style={styles.textStyle2}>Add in List</Text>
+                    </TouchableHighlight>
+                </View>
             </View>
         );
     }

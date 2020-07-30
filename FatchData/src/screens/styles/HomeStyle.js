@@ -49,6 +49,56 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         marginTop: 10
-    }
+    },
+    FlatListStyle:{
+        justifyContent: 'center',
+        flex: 1,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        marginTop: 30,
+    },
+    items: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+      },
+  
+    containerModal:{
+        marginVertical: 100,
+        alignSelf: "center",
+        justifyContent: 'center', 
+        flexDirection: 'column',
+        borderRadius: 20,
+        backgroundColor: 'rgba(100, 100, 100, 0.5)',
+        width: '70%',
+        height: '40%',
+        alignItems: 'center',
+        elevation: 100000
+    },
+    textStyle:{
+        fontSize:20,
+        color: 'white',
+    },
+    tinyLogo: {
+        marginTop: 10,
+        width: '60%',
+        height: '50%',
+        borderRadius: 10,
+    },
+    textStyle2: {
+        fontSize: 18,
+        color: 'white',
+        textAlign: 'center'
+    },
+    openButton: {
+        backgroundColor: "blue",
+        borderRadius: 20,
+        padding: 10,
+        width: '50%',
+        height: '15%',
+        elevation: 2,
+        marginTop: 25
+    },
 
 });
