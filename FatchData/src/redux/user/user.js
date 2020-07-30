@@ -1,1 +1,2 @@
+export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 export const SET_USER_DATA = 'SET_USER_DATA';
