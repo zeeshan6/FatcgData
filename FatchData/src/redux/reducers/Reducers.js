@@ -1,7 +1,7 @@
 import {
     SET_INITIAL_STATE,
     SET_USER_DATA
-} from '../user/user';
+} from '../user/type';
 import { act } from 'react-test-renderer';
 
 const initialState = {
@@ -20,7 +20,7 @@ const initialState = {
 }
 
 const Reducers = (state = initialState, action) => {
-    switch (action.user) {
+    switch (action.type) {
         case SET_INITIAL_STATE:
             return action.payload.totalUserData
             break;
@@ -45,7 +45,24 @@ const Reducers = (state = initialState, action) => {
                                                             state.users[action.payload.avatar_url] && state.users[action.payload.following] && state.users[action.payload.followers] &&
                                                             state.users[action.payload.html_url] && state.users[action.payload.login] ? state.users[action.payload.name][action.payload.avatar_url][action.payload.following]
                                                             [action.payload.followers][action.payload.html_url][action.payload.login] :{},{
-                                                                
+                                                                [action.payload.location]: Object.assign({}, state.users && state.users[action.payload.name] &&
+                                                                    state.users[action.payload.avatar_url] && state.users[action.payload.following] && state.users[action.payload.followers] &&
+                                                                    state.users[action.payload.html_url] && state.users[action.payload.login] && state.users[action.payload.location] ?
+                                                                    state.users[action.payload.name][action.payload.avatar_url][action.payload.following]
+                                                                    [action.payload.followers][action.payload.html_url][action.payload.login][action.payload.location] :{},{
+                                                                        [action.payload.message]: Object.assign({}, state.users && state.users[action.payload.name] &&
+                                                                            state.users[action.payload.avatar_url] && state.users[action.payload.following] && state.users[action.payload.followers] &&
+                                                                            state.users[action.payload.html_url] && state.users[action.payload.login] && state.users[action.payload.location] &&
+                                                                            state.users[action.payload.message] ? state.users[action.payload.name][action.payload.avatar_url][action.payload.following]
+                                                                            [action.payload.followers][action.payload.html_url][action.payload.login][action.payload.location][action.payload.message] :{},{
+                                                                                [action.payload.email]: Object.assign({}, state.users && state.users[action.payload.name] &&
+                                                                                    state.users[action.payload.avatar_url] && state.users[action.payload.following] && state.users[action.payload.followers] &&
+                                                                                    state.users[action.payload.html_url] && state.users[action.payload.login] && state.users[action.payload.location] &&
+                                                                                    state.users[action.payload.message] && state.users[action.payload.email] ? 
+                                                                                    state.users[action.payload.name][action.payload.avatar_url][action.payload.following]
+                                                                                    [action.payload.followers][action.payload.html_url][action.payload.login][action.payload.location][action.payload.message][action.payload.email] :{})
+                                                                            })
+                                                                    })
                                                             })
                                                     })
                                             })
@@ -53,11 +70,10 @@ const Reducers = (state = initialState, action) => {
                         })
                     })
                 })
-            }
-            break;
+            };
         default:
-            return state
+            return state;
     }
-}
+};
 
 export default Reducers;

@@ -1,11 +1,11 @@
 import {
     SET_INITIAL_STATE,
     SET_USER_DATA
-} from '../user/user';
+} from '../user/type';
 
 export const setInitialState = (totalUserData) => {
     return{
-        user: SET_INITIAL_STATE,
+        type: SET_INITIAL_STATE,
         payload:{
             totalUserData: totalUserData
         }
@@ -23,7 +23,7 @@ export const setUserData = (
         message,
         email) => {
     return{
-        user: SET_USER_DATA,
+        type: SET_USER_DATA,
         payload:{
             name: name,
             avatar_url:avatar_url,

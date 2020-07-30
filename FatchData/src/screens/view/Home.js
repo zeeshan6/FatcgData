@@ -16,11 +16,9 @@ import {
     Image,
     TouchableWithoutFeedback
 } from 'react-native';
-import {setInitialState} from "../../redux/Actions/Action";
+import {setInitialState,setUserData} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
-import { ListItem } from 'react-native-elements';
-// import { Icon } from 'react-native-vector-icons/Icon';
 
 // UserList Class
 class UserList extends Component{
@@ -64,37 +62,27 @@ class Home extends React.Component {
     }
 
     componentDidMount(){
-        const url = 'https://api.github.com/users';
+        const url = 'https://api.github.com/users/zeeshan6';
         fetch(url).then(res=>res.json()).then(data=>{
-            this.props.setInitialState(data)
+            this.SaveData(data);
         }).catch=(error)=>{
             this.setState({error: error})
         };
     }
 
-    // SaveData = ({
-    //     name,
-    //     avatar_url,
-    //     following,
-    //     followers,
-    //     html_url,
-    //     login,
-    //     location,
-    //     message,
-    //     email
-    // }) => {
-    //     this.setState({
-    //         name:name, 
-    //         avatar:avatar_url,
-    //         followers:followers, 
-    //         following:following, 
-    //         location:location, 
-    //         githubLink: html_url, 
-    //         loginName:login,
-    //         message:message,
-    //         email: email
-    //     })
-    // }
+    SaveData = ({
+        name,
+        avatar_url,
+        following,
+        followers,
+        html_url,
+        login,
+        location,
+        message,
+        email
+    }) => {
+        this.props.setUserData(name,avatar_url,following,followers,html_url,login,location,message,email);
+    }
 
     // GetUser = () => {
     //     const url = 'https://api.github.com/users/'+this.state.userInput;
@@ -167,4 +155,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{setInitialState})(Home);
+export default connect(mapStateToProps,{setInitialState,setUserData})(Home);

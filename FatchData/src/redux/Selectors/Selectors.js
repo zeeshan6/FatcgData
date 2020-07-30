@@ -1,3 +1,3 @@
 export const getUsersData = (state) => {
-    return state.reducers.user ? state.reducers.user : {};
+    return state.reducers.users ? state.reducers.users : {};
 };
