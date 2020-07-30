@@ -4,13 +4,22 @@ const {width,height} = Dimensions.get('window');
 
 export default StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#ADC5CA'
     },
 
     TextInputStyling: {
-        backgroundColor: "red",
-        width: "100%",
-    
+        width: '70%',
+        borderColor: 'red',
+        borderWidth: 3,
+        fontWeight: 'bold',
+        borderRadius: 12,
+        height: 46,
+        textAlign:'center',
+        color: 'blue',
+        marginHorizontal: 4,
+        fontSize: 20
+        
     },
     buttonContainer: {
         height: 70,
@@ -28,6 +37,18 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         color: '#00f7d2'
+    },
+
+    TextHeading:{
+        backgroundColor: '#E0E1E2',
+        fontSize: 40,
+        textAlign:'center',
+    },
+
+    InputAndBtnP:{
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginTop: 10
     }
-    
+
 });

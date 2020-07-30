@@ -10,11 +10,13 @@ import {
     Button,
     TouchableOpacity,
     ToastAndroid,
-    Alert
+    Alert,
+    ListView
 } from 'react-native';
 import {setUserData} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
+import { ListItem } from 'react-native-elements';
 
 // UserList Class
 class UserList extends Component{
@@ -22,10 +24,12 @@ class UserList extends Component{
         return(
             <TouchableOpacity style={styles.buttonContainer} onPress={()=>{
                 // Add Modal Link Show Some User Data
+                
             }}>
-                <Text style={styles.buttonHeading}>{this.state.userName}</Text>
+                <Text style={styles.buttonHeading}>{this.state.loginName}</Text>
                 <Button title='Open Github Profile' onPress={()=>{
                     // Add Git Hub Link
+                    this.state.githubLink
                 }}/>
             </TouchableOpacity>
         );
@@ -37,52 +41,86 @@ class Home extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            userName : '',
-            avator: '',
+            allData: [],
+            loginName: '',
+            name: '',
+            avatar: '',
             followers: '',
             following: '',
             location: '',
             githubLink: '',
+            message: '',
+            email: '',
+            error: null,
+            userInput: ''
         };
     }
 
-    // componentDidMount(){
-    //     this.GetDataInGitHub();
-    // }
-
-    GetDataInGitHub(){
-        fetch('https://api.github.com/users/zeeshan6').then(res=>res.json()).then(data=>{Alert.alert("Data",JSON.stringify(data))}).catch=(error)=>{console.error(error)};
-        
+    GetDataOnGitHub(){
+        const url = 'https://api.github.com/users';
+        fetch(url).then(res=>res.json()).then(data=>{
+            this.setState({allData:data});
+            this.SaveData(this.state.allData)
+        }).catch=(error)=>{
+            this.setState({error: error})
+        };   
     }
 
-
-    RenderItem = ({item, index}) => {
-        <UserList index={index} />
+    SaveData = ({
+        name,
+        avatar_url,
+        following,
+        followers,
+        html_url,
+        login,
+        location,
+        message,
+        email
+    }) => {
+        this.setState({
+            name:name, 
+            avatar:avatar_url,
+            followers:followers, 
+            following:following, 
+            location:location, 
+            githubLink: html_url, 
+            loginName:login,
+            message:message,
+            email: email
+        })
     }
 
-    keyExtractor = (item, index) => index.toString();
+    GetUser = () => {
+        const url = 'https://api.github.com/users/'+this.state.userInput;
+        fetch(url).then(res=>res.json()).then(data=>{
+            const notFonundMsg = data.message;
+            notFonundMsg ? this.setState({message:notFonundMsg}) : this.SaveData(data);
+        }).catch=(error)=>{
+            this.setState({error: error})
+        };
+    }
+
+    // keyExtractor = (item, index) => index.toString();
 
     render(){
         return(
-            <View>
-                <Text>Testing...</Text>
-                <TextInput 
-                    onChangeText={(value)=> this.setState({userName: value})} 
-                    style={styles.TextInputStyling} 
-                    placeholder= "Pass" 
-                    placeholderTextColor= "white" >
+            <View style={styles.container}>
+                <Text style={styles.TextHeading}>GitHub User</Text>
+                
+                <View style={styles.InputAndBtnP}>
+                    <TextInput 
+                        onChangeText={(value)=> this.setState({userName: value})} 
+                        style={styles.TextInputStyling} 
+                        placeholder= "Github Search" 
+                        placeholderTextColor= "#D9D8D9" >
 
-                </TextInput>
+                    </TextInput>
 
-                <Button title='Search' style={styles.searchBtn} onPress={()=>{
-                    this.GetDataInGitHub();
-                }} />
-
-                {/* <FlatList 
-                    data = {this.state.userData}
-                    renderItem = {this.RenderItem}
-                    keyExtractor = {this.keyExtractor}
-                /> */}
+                    <Button title='Search'  onPress={()=>{
+                        this.GetDataOnGitHub();
+                    }} />
+                </View>
+                    
             </View>
         );
     }
