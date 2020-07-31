@@ -1,6 +1,4 @@
-// Ceate Store and join Reducers
 import {createStore,combineReducers,applyMiddleware} from "redux";
-// action joing
 import thunk from "redux-thunk";
 // import { composeWithDevTools } from 'redux-devtools-extension';
 import * as actionCreators from '../redux/Actions/Action';

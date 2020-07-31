@@ -16,7 +16,7 @@ import {
     Image,
     TouchableWithoutFeedback
 } from 'react-native';
-import {setInitialState,setUserData} from "../../redux/Actions/Action";
+import {setInitialState} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
 
@@ -44,19 +44,19 @@ class Home extends React.Component {
         super(props);
         this.state = {
             allData: '',
-            loginName: '',
-            name: '',
-            avatar: '',
-            followers: '',
-            following: '',
-            location: '',
-            githubLink: '',
-            message: '',
-            email: '',
-            error: null,
-            userInput: '',
-            isModal: false,
-            url: ''
+            // loginName: '',
+            // name: '',
+            // avatar: '',
+            // followers: '',
+            // following: '',
+            // location: '',
+            // githubLink: '',
+            // message: '',
+            // email: '',
+            // error: null,
+            // userInput: '',
+            // isModal: false,
+            // url: ''
         };
 
         this.GetDataOnStore = this.GetDataOnStore.bind(this);
@@ -66,60 +66,60 @@ class Home extends React.Component {
         const url = 'https://api.github.com/users/girl';
         fetch(url).then(res=>res.json()).then(data=>{
             this.setState({allData: data})
-            this.SaveData(this.state.allData);
+            this.props.setInitialState(this.state.allData);
         }).catch=(error)=>{
             this.setState({error: error})
         };
     }
 
-    SaveData = ({
-        name,
-        avatar_url,
-        following,
-        followers,
-        html_url,
-        login,
-        location,
-        message,
-        email,
-        url
-    }) => {
-        this.setState({
-            name:name, 
-            avatar:avatar_url,
-            followers:followers, 
-            following:following, 
-            location:location, 
-            githubLink: html_url, 
-            loginName:login,
-            message:message,
-            email: email,
-            url:url
-        })
+    // SaveData = ({
+    //     name,
+    //     avatar_url,
+    //     following,
+    //     followers,
+    //     html_url,
+    //     login,
+    //     location,
+    //     message,
+    //     email,
+    //     url
+    // }) => {
+    //     this.setState({
+    //         name:name, 
+    //         avatar:avatar_url,
+    //         followers:followers, 
+    //         following:following, 
+    //         location:location, 
+    //         githubLink: html_url, 
+    //         loginName:login,
+    //         message:message,
+    //         email: email,
+    //         url:url
+    //     })
 
         
-    }
+    // }
 
-    DataSaveInStore(){
-        const name = this.state.name;
-        const avatar = this.state.avatar_url;
-        const followers = this.state.followers;
-        const following = this.state.following;
-        const html_url = this.state.html_url;
-        const login = this.state.login;
-        const location = this.state.location;
-        const message = this.state.message;
-        const email = this.state.email;
-        const url = this.state.url;
+    // DataSaveInStore(){
+    //     const name = this.state.name;
+    //     const avatar = this.state.avatar_url;
+    //     const followers = this.state.followers;
+    //     const following = this.state.following;
+    //     const html_url = this.state.html_url;
+    //     const login = this.state.login;
+    //     const location = this.state.location;
+    //     const message = this.state.message;
+    //     const email = this.state.email;
+    //     const url = this.state.url;
 
-        this.props.setUserData(name,avatar,following,followers,html_url,login,location,message,email);
-        this.props.setInitialState(this.state.allData);
+    //     this.props.setUserData(name,avatar,following,followers,html_url,login,location,message,email);
+    //     this.props.setInitialState(this.state.allData);
 
-        Alert.alert("Data",JSON.stringify(this.state.allData));
-    }
+    //     Alert.alert("Data",JSON.stringify(this.state.allData));
+    // }
 
     GetDataOnStore = () =>{
-        const userData = this.props.getUsersData;
+        const userData = this.props.getUsersDatas;
         // const keys = Object.keys(userData);
         Alert.alert("Data", JSON.stringify(userData));
         
@@ -175,8 +175,8 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
      return{
-            getUsersData: getUsersData(state)
+            getUsersDatas: getUsersData(state)
         }
 }
 
-export default connect(mapStateToProps,{setInitialState,setUserData})(Home);
+export default connect(mapStateToProps,{setInitialState})(Home);
