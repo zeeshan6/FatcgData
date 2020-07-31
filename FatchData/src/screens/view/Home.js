@@ -55,14 +55,15 @@ class Home extends React.Component {
             email: '',
             error: null,
             userInput: '',
-            isModal: false
+            isModal: false,
+            url: ''
         };
 
         this.GetDataOnStore = this.GetDataOnStore.bind(this);
     }
 
     componentDidMount(){
-        const url = 'https://api.github.com/users/zeeshan6';
+        const url = 'https://api.github.com/users/girl';
         fetch(url).then(res=>res.json()).then(data=>{
             this.setState({allData: data})
             this.SaveData(this.state.allData);
@@ -80,7 +81,8 @@ class Home extends React.Component {
         login,
         location,
         message,
-        email
+        email,
+        url
     }) => {
         this.setState({
             name:name, 
@@ -91,7 +93,8 @@ class Home extends React.Component {
             githubLink: html_url, 
             loginName:login,
             message:message,
-            email: email
+            email: email,
+            url:url
         })
 
         
@@ -107,8 +110,12 @@ class Home extends React.Component {
         const location = this.state.location;
         const message = this.state.message;
         const email = this.state.email;
+        const url = this.state.url;
 
         this.props.setUserData(name,avatar,following,followers,html_url,login,location,message,email);
+        this.props.setInitialState(this.state.allData);
+
+        Alert.alert("Data",JSON.stringify(this.state.allData));
     }
 
     GetDataOnStore = () =>{
@@ -167,9 +174,9 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return{
-        getUsersData: getUsersData(state)
-    }
+     return{
+            getUsersData: getUsersData(state)
+        }
 }
 
 export default connect(mapStateToProps,{setInitialState,setUserData})(Home);
