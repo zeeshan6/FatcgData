@@ -18,12 +18,12 @@ const initialState = {
     }
 }
 
-const Reducers = (state = initialState, action) => {
+const reducers = (state = initialState, action) => {
     switch (action.type) {
         case SET_INITIAL_STATE:
             return {
                 ...state,
-                userD: action.payloads
+                userD: action.payload.userData
             };
         // case SET_USER_DATA:
         //     return  {
@@ -77,4 +77,4 @@ const Reducers = (state = initialState, action) => {
     }
 };
 
-export default Reducers;
+export default reducers;
