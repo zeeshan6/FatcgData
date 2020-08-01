@@ -14,7 +14,8 @@ import {
     ListView,
     TouchableHighlight,
     Image,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Linking
 } from 'react-native';
 import {setInitialState} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
@@ -120,55 +121,100 @@ class Home extends React.Component {
 
     GetDataOnStore = () =>{
         const userData = this.props.getUsersDatas;
-        // const keys = Object.keys(userData);
-        Alert.alert("Data", JSON.stringify(userData));
-        
+        const key = Object.values(userData);
+        Alert.alert("Data", key.toString());
+        let tags=[];
+        for(var i=0; i < key.length; i++){
+            const data = key[i];
+            // if (key[i] !== undefined) rv[i] = key[i];
+            const userDataValues = userData[data];
+            // if(!userData) continue;
+            tags.push(
+                <View key={i} style={styles.containerModal}>
+
+                        <Image
+                            style={styles.tinyLogo}
+                            source={{
+                                uri: userDataValues.avatar_url,
+                            }}
+                        />
+                        
+                        <Text style={styles.textStyle}>{userDataValues.login}</Text>
+
+                        
+                        <TouchableHighlight
+                            style={styles.openButton}
+                            onPress={() => {
+                                Linking.openURL(userDataValues.html_url)
+                            }}
+                        >                  
+                            <Text style={styles.textStyle2}>Go To Githib Profile</Text>
+                        </TouchableHighlight>
+                    </View>
+            );
+        }
+        return tags;
     }
+    
+    // renderItem = ({item , index }) => (
+    //     <View key={item.key} index={index}>
+    //         <Image
+    //             style={styles.tinyLogo}
+    //             source={{
+    //                 uri: item.avatar_url,
+    //             }}
+    //         />
+            
+    //         <Text style={styles.textStyle}>{item.login}</Text>
+
+            
+    //         <TouchableHighlight
+    //             style={styles.openButton}
+    //             onPress={() => {
+    //                 Linking.openURL(item.html_url)
+    //             }}
+    //         >                  
+    //             <Text style={styles.textStyle2}>Go To Githib Profile</Text>
+    //         </TouchableHighlight>
+    //     </View>
+    // );
+
+
+    // keyExtractor = (item, index) => index.toString();
 
     render(){
-        const isModal = this.state.isModal;
         return(
-            <View style={styles.container}>
-                <Text style={styles.TextHeading}>GitHub User</Text>
-                
-                <View style={styles.InputAndBtnP}>
-                    <TextInput 
-                        onChangeText={(value)=> this.setState({userName: value})} 
-                        style={styles.TextInputStyling} 
-                        placeholder= "Github Search" 
-                        placeholderTextColor= "#D9D8D9" >
-
-                    </TextInput>
-
-                    <Button title='Search'  onPress={()=>{
-                        this.DataSaveInStore();
-                    }} />
-                </View>
-                 
-                <View style={styles.containerModal}>
-
-                    <Image
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: this.state.avatar,
-                        }}
-                    />
+            <ScrollView style={styles.container}>
+                <View >
+                    <Text style={styles.TextHeading}>GitHub User</Text>
                     
-                    <Text style={styles.textStyle}>{this.state.name}</Text>
+                    <View style={styles.InputAndBtnP}>
+                        <TextInput 
+                            onChangeText={(value)=> this.setState({userName: value})} 
+                            style={styles.TextInputStyling} 
+                            placeholder= "Github Search" 
+                            placeholderTextColor= "#D9D8D9" >
 
-                    
-                    <TouchableHighlight
-                        style={styles.openButton}
-                        onPress={() => {
+                        </TextInput>
+
+                        <Button title='Search'  onPress={()=>{
                             this.GetDataOnStore();
-                        }}
-                    >                  
-                        <Text style={styles.textStyle2}>Add in List</Text>
-                    </TouchableHighlight>
-                </View>
-                
+                        }} />
+                    </View>
 
-            </View>
+
+                        
+                        {/* <FlatList
+                            data = {this.state.allData}
+                            renderItem = {this.renderItem}
+                            keyExtractor = {this.keyExtractor}
+                        >
+
+                        </FlatList> */}
+                    
+
+                </View>
+            </ScrollView>
         );
     }
 }
