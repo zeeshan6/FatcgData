@@ -80,7 +80,6 @@ class Home extends React.Component {
         fetch(url).then(res=>res.json()).then(data=>{
             this.setState({allData: data,loading: false})
             this.props.setInitialState(this.state.allData);
-            this.SaveData(data);
         }).catch=(error)=>{
             this.setState({error: error})
         };
@@ -186,14 +185,14 @@ class Home extends React.Component {
         //                 <Text style={styles.textStyle}>{userDataValues.login}</Text>
 
                         
-        //                 <TouchableHighlight
-        //                     style={styles.openButton}
-        //                     onPress={() => {
-        //                         Linking.openURL(userDataValues.html_url)
-        //                     }}
-        //                 >                  
-        //                     <Text style={styles.textStyle2}>Go To Githib Profile</Text>
-        //                 </TouchableHighlight>
+                        // <TouchableHighlight
+                        //     style={styles.openButton}
+                        //     onPress={() => {
+                        //         Linking.openURL(userDataValues.html_url)
+                        //     }}
+                        // >                  
+                        //     <Text style={styles.textStyle2}>Go To Githib Profile</Text>
+                        // </TouchableHighlight>
         //             </View>
         //     );
         // }
@@ -201,18 +200,29 @@ class Home extends React.Component {
     // }
 
     renderItem(data) {
-        return <TouchableOpacity style={{backgroundColor: 'transparent'}}>
+        return <TouchableOpacity key={data.item.id} style={{backgroundColor: 'transparent'}} onPress={()=>{
+            Alert.alert("Show Detail","Test")
+        }} >
                     <View  style={styles.listItemContainer}>
                         <Text style={styles.pokeItemHeader}>{data.item.login}</Text>
+                        <TouchableHighlight
+                            style={styles.openButton}
+                            onPress={() => {
+                                Linking.openURL(data.item.html_url)
+                            }}
+                        >                  
+                            <Text style={styles.textStyle2}>Githib Profile</Text>
+                        </TouchableHighlight>
                         <Image source={{uri: data.item.avatar_url}} 
                                 style={styles.pokeImage}/>
+                        
                     </View>
                 </TouchableOpacity>
     }
 
     render(){
         return(
-            <ScrollView>
+            
             <View  style={styles.container}>
                 <Text style={styles.TextHeading}>GitHub User</Text>
                 
@@ -238,7 +248,6 @@ class Home extends React.Component {
                         />
                     </View>
             </View>
-            </ScrollView>
         );
     }
 

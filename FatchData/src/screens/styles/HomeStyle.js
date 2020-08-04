@@ -88,16 +88,16 @@ export default StyleSheet.create({
         borderRadius: 10,
     },
     textStyle2: {
-        fontSize: 18,
+        fontSize: width*0.03,
         color: 'white',
         textAlign: 'center'
     },
     openButton: {
         backgroundColor: "blue",
         borderRadius: 20,
-        padding: 10,
-        width: '50%',
-        height: '15%',
+        // padding: 10,
+        width: '25%',
+        height: '40%',
         elevation: 2,
         marginTop: 25
     },
@@ -113,11 +113,18 @@ export default StyleSheet.create({
     pokeItemHeader: {  
         color: '#fff',
         fontSize: 24,
+        alignSelf: 'flex-end',
+        // marginLeft: width*0.4,
+        // paddingTop:10
     },
     pokeImage: {
         backgroundColor: 'transparent',
-        height: 50,
-        width: 50
+        height: 60,
+        width: 60,
+        borderRadius: 10
+    },
+    gitBtn: {
+
     }
 
 });
