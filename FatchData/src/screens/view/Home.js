@@ -15,29 +15,15 @@ import {
     TouchableHighlight,
     Image,
     TouchableWithoutFeedback,
-    Linking
+    Linking,
+    Dimensions
 } from 'react-native';
 import {setInitialState} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
 
-// UserList Class
-class UserList extends Component{
-    render(){
-        return(
-            <TouchableOpacity style={styles.buttonContainer} onPress={()=>{
-                // Add Modal Link Show Some User Data
-                
-            }}>
-                <Text style={styles.buttonHeading}>{this.state.loginName}</Text>
-                <Button title='Open Github Profile' onPress={()=>{
-                    // Add Git Hub Link
-                    this.state.githubLink
-                }}/>
-            </TouchableOpacity>
-        );
-    }
-}
+const {width,height} = Dimensions.get('window');
+
 
 
 class Home extends React.Component {
@@ -45,6 +31,7 @@ class Home extends React.Component {
         super(props);
         this.state = {
             allData: '',
+            loading: false
             // loginName: '',
             // name: '',
             // avatar: '',
@@ -60,14 +47,40 @@ class Home extends React.Component {
             // url: ''
         };
 
-        this.GetDataOnStore = this.GetDataOnStore.bind(this);
+        // this.GetDataOnStore = this.GetDataOnStore.bind(this);
     }
 
+    // MainButton(title,onPress,key,GitHub,ImageUri) {
+    //     return(
+    //         <TouchableOpacity onPress={onPress} key={key}>
+    //             <View style={{
+    //                 justifyContent: 'space-evenly',
+    //                 borderTopRightRadius: 15,
+    //                 borderBottomLeftRadius: 15,
+    //                 elevation: 6,
+    //                 width: width*1,
+    //                 height: width*0.4,
+    //                 marginTop: 15,
+    //                 alignItems: 'center',
+    //                 backgroundColor: '#D9D8D9',
+    //                 // borderWidth: 1,
+    //                 // borderColor: 'lightgreen',
+    //                 // borderBottomWidth: 0,
+    //             }}>
+    //                 <Image source={{uri:ImageUri}}/>
+    //                 <Text style={{color: 'red', fontWeight: 'bold',}}>{title}</Text>
+    //                 <Text style={{color: 'red', fontWeight: 'bold',}}>{GitHub}</Text>
+    //             </View>
+    //         </TouchableOpacity>
+    //     )
+    // }
+
     componentDidMount(){
-        const url = 'https://api.github.com/users/girl';
+        const url = 'https://api.github.com/users';
         fetch(url).then(res=>res.json()).then(data=>{
-            this.setState({allData: data})
+            this.setState({allData: data,loading: false})
             this.props.setInitialState(this.state.allData);
+            this.SaveData(data);
         }).catch=(error)=>{
             this.setState({error: error})
         };
@@ -119,104 +132,116 @@ class Home extends React.Component {
     //     Alert.alert("Data",JSON.stringify(this.state.allData));
     // }
 
-    GetDataOnStore = () =>{
-        const userData = this.props.getUsersDatas;
-        const key = Object.values(userData);
-        Alert.alert("Data", key.toString());
-        let tags=[];
-        for(var i=0; i < key.length; i++){
-            const data = key[i];
-            // if (key[i] !== undefined) rv[i] = key[i];
-            const userDataValues = userData[data];
-            // if(!userData) continue;
-            tags.push(
-                <View key={i} style={styles.containerModal}>
-
-                        <Image
-                            style={styles.tinyLogo}
-                            source={{
-                                uri: userDataValues.avatar_url,
-                            }}
-                        />
-                        
-                        <Text style={styles.textStyle}>{userDataValues.login}</Text>
-
-                        
-                        <TouchableHighlight
-                            style={styles.openButton}
-                            onPress={() => {
-                                Linking.openURL(userDataValues.html_url)
-                            }}
-                        >                  
-                            <Text style={styles.textStyle2}>Go To Githib Profile</Text>
-                        </TouchableHighlight>
-                    </View>
-            );
-        }
-        return tags;
-    }
-    
-    // renderItem = ({item , index }) => (
-    //     <View key={item.key} index={index}>
-    //         <Image
-    //             style={styles.tinyLogo}
-    //             source={{
-    //                 uri: item.avatar_url,
-    //             }}
-    //         />
-            
-    //         <Text style={styles.textStyle}>{item.login}</Text>
-
-            
-    //         <TouchableHighlight
-    //             style={styles.openButton}
-    //             onPress={() => {
-    //                 Linking.openURL(item.html_url)
-    //             }}
-    //         >                  
-    //             <Text style={styles.textStyle2}>Go To Githib Profile</Text>
-    //         </TouchableHighlight>
-    //     </View>
-    // );
-
-
     // keyExtractor = (item, index) => index.toString();
+
+    // GetDataOnStore = () =>{
+    //     const userData = this.props.getUsersDatas;
+    //     // Alert.alert("Data", JSON.stringify(userData))
+    //     let tags = [];
+    //     Object.keys(userData).forEach((key,index,data) => {
+    //         tags.push(
+    //             // this.MainButton(key.login,onPress(()=>{
+    //             //     Alert.alert("Data","Test")
+    //             // }),key,index,key.html_url,key.avatar_url)
+    //             <View key={key} index={index} style={styles.containerModal}>
+
+    //                    <Image
+    //                         style={styles.tinyLogo}
+    //                         source={{
+    //                             uri: key.avatar_url,
+    //                         }}
+    //                     />
+                        
+    //                     <Text style={styles.textStyle}>{key.login}</Text>
+
+                        
+    //                     <TouchableHighlight
+    //                         style={styles.openButton}
+    //                         onPress={() => {
+    //                             Linking.openURL(key.html_url)
+    //                         }}
+    //                     >                  
+    //                         <Text style={styles.textStyle2}>Go To Githib Profile</Text>
+    //                     </TouchableHighlight>
+    //             </View>
+
+    //         );
+    //     });
+        // const key = Object.values(userData);
+        // Alert.alert("Data", key.toString());
+        // let tags=[];
+        // for(var i=0; i < key.length; i++){
+        //     const data = key[i];
+        //     const userDataValues = userData[data];
+        //     tags.push(
+        //         <View key={i} style={styles.containerModal}>
+
+        //                 <Image
+        //                     style={styles.tinyLogo}
+        //                     source={{
+        //                         uri: userDataValues.avatar_url,
+        //                     }}
+        //                 />
+                        
+        //                 <Text style={styles.textStyle}>{userDataValues.login}</Text>
+
+                        
+        //                 <TouchableHighlight
+        //                     style={styles.openButton}
+        //                     onPress={() => {
+        //                         Linking.openURL(userDataValues.html_url)
+        //                     }}
+        //                 >                  
+        //                     <Text style={styles.textStyle2}>Go To Githib Profile</Text>
+        //                 </TouchableHighlight>
+        //             </View>
+        //     );
+        // }
+    //     return tags;
+    // }
+
+    renderItem(data) {
+        return <TouchableOpacity style={{backgroundColor: 'transparent'}}>
+                    <View  style={styles.listItemContainer}>
+                        <Text style={styles.pokeItemHeader}>{data.item.login}</Text>
+                        <Image source={{uri: data.item.avatar_url}} 
+                                style={styles.pokeImage}/>
+                    </View>
+                </TouchableOpacity>
+    }
 
     render(){
         return(
-            <ScrollView style={styles.container}>
-                <View >
-                    <Text style={styles.TextHeading}>GitHub User</Text>
-                    
-                    <View style={styles.InputAndBtnP}>
-                        <TextInput 
-                            onChangeText={(value)=> this.setState({userName: value})} 
-                            style={styles.TextInputStyling} 
-                            placeholder= "Github Search" 
-                            placeholderTextColor= "#D9D8D9" >
+            <ScrollView>
+            <View  style={styles.container}>
+                <Text style={styles.TextHeading}>GitHub User</Text>
+                
+                <View style={styles.InputAndBtnP}> 
+                    <TextInput 
+                        onChangeText={(value)=> this.setState({userName: value})} 
+                        style={styles.TextInputStyling} 
+                        placeholder= "Github Search" 
+                        placeholderTextColor= "#D9D8D9" >
 
-                        </TextInput>
+                    </TextInput>
 
-                        <Button title='Search'  onPress={()=>{
-                            this.GetDataOnStore();
-                        }} />
-                    </View>
-
-
-                        
-                        {/* <FlatList
-                            data = {this.state.allData}
-                            renderItem = {this.renderItem}
-                            keyExtractor = {this.keyExtractor}
-                        >
-
-                        </FlatList> */}
-                    
-
+                    <Button title='Search'  onPress={()=>{
+                        this.GetDataOnStore();
+                    }} />
                 </View>
+
+                    <View>
+                        <FlatList
+                            data={this.props.getUsersDatas}
+                            renderItem={this.renderItem}
+                            keyExtractor={(item) => item.id} 
+                        />
+                    </View>
+            </View>
             </ScrollView>
         );
     }
+
 }
 
 const mapStateToProps = (state) => {

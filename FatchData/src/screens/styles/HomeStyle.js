@@ -65,14 +65,15 @@ export default StyleSheet.create({
       },
   
     containerModal:{
-        marginVertical: 100,
-        alignSelf: "center",
-        justifyContent: 'center', 
-        flexDirection: 'column',
+        // marginHorizontal: 100,
+        flex:1,
+        justifyContent: 'space-between',
+        marginVertical:5, 
+        flexDirection: 'row',
         borderRadius: 20,
         backgroundColor: 'rgba(100, 100, 100, 0.5)',
-        width: '70%',
-        height: '40%',
+        width: '100%',
+        height: width*0.3,
         alignItems: 'center',
         elevation: 100000
     },
@@ -81,7 +82,7 @@ export default StyleSheet.create({
         color: 'white',
     },
     tinyLogo: {
-        marginTop: 10,
+        // marginTop: 10,
         width: '60%',
         height: '50%',
         borderRadius: 10,
@@ -100,5 +101,23 @@ export default StyleSheet.create({
         elevation: 2,
         marginTop: 25
     },
+
+    listItemContainer: {
+        borderStyle: 'solid',
+        borderColor: '#fff',
+        borderBottomWidth: 2,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 20
+    },
+    pokeItemHeader: {  
+        color: '#fff',
+        fontSize: 24,
+    },
+    pokeImage: {
+        backgroundColor: 'transparent',
+        height: 50,
+        width: 50
+    }
 
 });

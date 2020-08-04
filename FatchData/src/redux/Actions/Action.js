@@ -12,7 +12,7 @@ export const setInitialState = (userData) => {
     }
 };
 
-// export const setUserData = (
+// export const setUserData = ( 
 //         name,
 //         avatar_url,
 //         following,

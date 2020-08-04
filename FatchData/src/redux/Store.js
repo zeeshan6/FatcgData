@@ -12,7 +12,7 @@ const store = createStore(
 );
 
 // const store = () => {
-//     return createStore(reducer);
+//     return createStore(reducer); 
 // }
 
 // const store = createStore(

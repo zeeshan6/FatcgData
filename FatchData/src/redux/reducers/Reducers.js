@@ -3,7 +3,7 @@ import {
     SET_USER_DATA
 } from '../user/type';
 
-const initialState = {
+const initialState = { 
     userD:{
         // name: '',
         // avatar_url: '',
