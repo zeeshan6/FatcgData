@@ -25,6 +25,37 @@ import {getUsersData} from "../../redux/Selectors/Selectors";
 const {width,height} = Dimensions.get('window');
 
 
+class OwnModal extends React.Component{
+    render(){
+        return(
+            <View style={styles.containerModal}>
+                <Image
+                    style={styles.tinyLogo}
+                    source={{
+                        uri: data.item.avatar_url,
+                    }}
+                /> 
+
+                <Text style={styles.textStyle}>{data.item.name}</Text>
+
+                <Text style={styles.textStyle}>{data.item.followers}</Text>
+                <Text style={styles.textStyle}>{data.item.following}</Text>
+                <Text style={styles.textStyle}>{data.item.location}</Text>
+
+
+                
+                <TouchableHighlight
+                    style={styles.openButton}
+                    onPress={() => {
+                        Alert.alert("Close")
+                    }}
+                >                  
+                    <Text style={styles.textStyle2}>Close</Text>
+                </TouchableHighlight>
+            </View>
+        );
+    }
+} 
 
 class Home extends React.Component {
     constructor(props){
@@ -47,8 +78,33 @@ class Home extends React.Component {
             // url: ''
         };
 
-        // this.GetDataOnStore = this.GetDataOnStore.bind(this);
     }
+
+                        // <View style={styles.containerModal}>
+                        //         <Image
+                        //             style={styles.tinyLogo}
+                        //             source={{
+                        //                 uri: data.item.avatar_url,
+                        //             }}
+                        //         /> 
+
+                        //         <Text style={styles.textStyle}>{data.item.name}</Text>
+
+                        //         <Text style={styles.textStyle}>{data.item.followers}</Text>
+                        //         <Text style={styles.textStyle}>{data.item.following}</Text>
+                        //         <Text style={styles.textStyle}>{data.item.location}</Text>
+
+
+                                
+                        //         <TouchableHighlight
+                        //             style={styles.openButton}
+                        //             onPress={() => {
+                        //                 Alert.alert("Close")
+                        //             }}
+                        //         >                  
+                        //             <Text style={styles.textStyle2}>Close</Text>
+                        //         </TouchableHighlight>
+                        //     </View>
 
     // MainButton(title,onPress,key,GitHub,ImageUri) {
     //     return(
@@ -142,27 +198,27 @@ class Home extends React.Component {
     //             // this.MainButton(key.login,onPress(()=>{
     //             //     Alert.alert("Data","Test")
     //             // }),key,index,key.html_url,key.avatar_url)
-    //             <View key={key} index={index} style={styles.containerModal}>
+                // <View key={key} index={index} style={styles.containerModal}>
 
-    //                    <Image
-    //                         style={styles.tinyLogo}
-    //                         source={{
-    //                             uri: key.avatar_url,
-    //                         }}
-    //                     />
+                //        <Image
+                //             style={styles.tinyLogo}
+                //             source={{
+                //                 uri: key.avatar_url,
+                //             }}
+                //         />
                         
-    //                     <Text style={styles.textStyle}>{key.login}</Text>
+                //         <Text style={styles.textStyle}>{key.login}</Text>
 
                         
-    //                     <TouchableHighlight
-    //                         style={styles.openButton}
-    //                         onPress={() => {
-    //                             Linking.openURL(key.html_url)
-    //                         }}
-    //                     >                  
-    //                         <Text style={styles.textStyle2}>Go To Githib Profile</Text>
-    //                     </TouchableHighlight>
-    //             </View>
+                //         <TouchableHighlight
+                //             style={styles.openButton}
+                //             onPress={() => {
+                //                 Linking.openURL(key.html_url)
+                //             }}
+                //         >                  
+                //             <Text style={styles.textStyle2}>Go To Githib Profile</Text>
+                //         </TouchableHighlight>
+                // </View>
 
     //         );
     //     });
@@ -200,11 +256,10 @@ class Home extends React.Component {
     // }
 
     renderItem(data) {
-        return <TouchableOpacity key={data.item.id} style={{backgroundColor: 'transparent'}} onPress={()=>{
-            Alert.alert("Show Detail","Test")
-        }} >
+        return <TouchableOpacity key={data.item.id} style={{backgroundColor: 'transparent'}} onPress={()=>{}} >
                     <View  style={styles.listItemContainer}>
                         <Text style={styles.pokeItemHeader}>{data.item.login}</Text>
+
                         <TouchableHighlight
                             style={styles.openButton}
                             onPress={() => {
@@ -213,10 +268,12 @@ class Home extends React.Component {
                         >                  
                             <Text style={styles.textStyle2}>Githib Profile</Text>
                         </TouchableHighlight>
+
                         <Image source={{uri: data.item.avatar_url}} 
-                                style={styles.pokeImage}/>
+                            style={styles.pokeImage}/>
                         
                     </View>
+                    
                 </TouchableOpacity>
     }
 
@@ -240,12 +297,25 @@ class Home extends React.Component {
                     }} />
                 </View>
 
+                
+
                     <View>
+                        {/* <Modal
+                            animationType="slide"
+                            isVisible={true}
+                            onRequestClose={() => {
+                            Alert.alert("Modal has been closed.");
+                            }}
+                        >
+                        
+                            
+                        </Modal> */}
+
                         <FlatList
-                            data={this.props.getUsersDatas}
-                            renderItem={this.renderItem}
-                            keyExtractor={(item) => item.id} 
-                        />
+                                data={this.props.getUsersDatas}
+                                renderItem={this.renderItem}
+                                keyExtractor={(item, index) => index.toString()} 
+                            />
                     </View>
             </View>
         );
