@@ -112,13 +112,13 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         padding: 20
     },
-    pokeItemHeader: {  
+    modalItemLogin: {  
         color: '#000',
         fontSize: 20,
         textAlign: 'center',
         marginTop: 20
     }, 
-    pokeImage: {
+    modalListImage: {
         backgroundColor: 'transparent',
         height: 60,
         width: 60,
