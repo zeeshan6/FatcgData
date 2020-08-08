@@ -23,7 +23,6 @@ import {setInitialState} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
 import _ from 'lodash';
-import OwnModal from './OwnModal';
 
 const {width,height} = Dimensions.get('window');
 
