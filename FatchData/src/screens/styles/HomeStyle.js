@@ -5,21 +5,16 @@ const {width,height} = Dimensions.get('window');
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ADC5CA'
+        // backgroundColor: '#ADC5CA'
     },
 
     TextInputStyling: {
-        width: '70%',
-        borderColor: 'red',
-        borderWidth: 3,
-        fontWeight: 'bold',
-        borderRadius: 12,
-        height: 46,
-        textAlign:'center',
-        color: 'blue',
-        marginHorizontal: 4,
-        fontSize: 20
-        
+        width: '97%',
+        borderWidth: 1,
+        borderRadius: 10,
+        height: 40,
+        color: 'black',
+        backgroundColor: '#FFFFFF',
     },
     buttonContainer: {
         height: 70,
@@ -102,6 +97,13 @@ export default StyleSheet.create({
         marginTop: 25
     },
 
+    openButtonModal: {
+        // backgroundColor: "#F194FF",
+        borderRadius: 20,
+        width: '40%',
+        elevation: 2
+      },
+
     listItemContainer: {
         borderStyle: 'solid',
         borderColor: '#fff',
@@ -111,20 +113,52 @@ export default StyleSheet.create({
         padding: 20
     },
     pokeItemHeader: {  
-        color: '#fff',
-        fontSize: 24,
-        alignSelf: 'flex-end',
-        // marginLeft: width*0.4,
-        // paddingTop:10
-    },
+        color: '#000',
+        fontSize: 20,
+        textAlign: 'center',
+        marginTop: 20
+    }, 
     pokeImage: {
         backgroundColor: 'transparent',
         height: 60,
         width: 60,
         borderRadius: 10
     },
-    gitBtn: {
 
-    }
+    modalImage: {
+        backgroundColor: 'transparent',
+        height: '45%',
+        width: '55%',
+        borderRadius: 10,
+        marginTop: 10
+    },
+
+    modalView: {
+        marginVertical: width*0.5,
+        backgroundColor: "#505050",
+        borderRadius: 20,
+        alignItems: "center",
+        shadowColor: "#000",
+        width: '90%',
+        height: '50%',
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        alignSelf: 'center'
+      },
+      modalTextName: {
+          color: '#fff',
+          fontSize: 25,
+          
+      },
+      modalText: {
+        color: '#fff',
+        fontSize: 20,
+        padding: 15
+      },
 
 });

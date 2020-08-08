@@ -16,63 +16,70 @@ import {
     Image,
     TouchableWithoutFeedback,
     Linking,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from 'react-native';
 import {setInitialState} from "../../redux/Actions/Action";
 import {connect} from "react-redux";
 import {getUsersData} from "../../redux/Selectors/Selectors";
+import _ from 'lodash';
+import OwnModal from './OwnModal';
 
 const {width,height} = Dimensions.get('window');
 
 
-class OwnModal extends React.Component{
-    render(){
-        return(
-            <View style={styles.containerModal}>
-                <Image
-                    style={styles.tinyLogo}
-                    source={{
-                        uri: data.item.avatar_url,
-                    }}
-                /> 
+// class OwnModal extends React.Component{
+//     render(){
+//         return(
+            // <View style={styles.containerModal}>
+            //     <Image
+            //         style={styles.tinyLogo}
+            //         source={{
+            //             uri: data.item.avatar_url,
+            //         }}
+            //     /> 
 
-                <Text style={styles.textStyle}>{data.item.name}</Text>
+            //     <Text style={styles.textStyle}>{data.item.name}</Text>
 
-                <Text style={styles.textStyle}>{data.item.followers}</Text>
-                <Text style={styles.textStyle}>{data.item.following}</Text>
-                <Text style={styles.textStyle}>{data.item.location}</Text>
+            //     <Text style={styles.textStyle}>{data.item.followers}</Text>
+            //     <Text style={styles.textStyle}>{data.item.following}</Text>
+            //     <Text style={styles.textStyle}>{data.item.location}</Text>
 
 
                 
-                <TouchableHighlight
-                    style={styles.openButton}
-                    onPress={() => {
-                        Alert.alert("Close")
-                    }}
-                >                  
-                    <Text style={styles.textStyle2}>Close</Text>
-                </TouchableHighlight>
-            </View>
-        );
-    }
-} 
+            //     <TouchableHighlight
+            //         style={styles.openButton}
+            //         onPress={() => {
+            //             Alert.alert("Close")
+            //         }}
+            //     >                  
+            //         <Text style={styles.textStyle2}>Close</Text>
+            //     </TouchableHighlight>
+            // </View>
+//         );
+//     }
+// } 
 
 class Home extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            allData: '',
-            loading: false
-            // loginName: '',
+            allData: [],
+            loading: false,
+            query: '',
+            modalVisible: false,
+            loginName: '',
             // name: '',
-            // avatar: '',
-            // followers: '',
-            // following: '',
-            // location: '',
+            avatar: '',
+            followers: 0,
+            following: 0,
+            random: 0,
+            render2: 0,
+            location: '',
             // githubLink: '',
             // message: '',
             // email: '',
-            // error: null,
+            error: null,
             // userInput: '',
             // isModal: false,
             // url: ''
@@ -132,40 +139,29 @@ class Home extends React.Component {
     // }
 
     componentDidMount(){
+        this.setState({loading: true})
         const url = 'https://api.github.com/users';
-        fetch(url).then(res=>res.json()).then(data=>{
-            this.setState({allData: data,loading: false})
-            this.props.setInitialState(this.state.allData);
+        fetch(url).then(res=>res.json())
+            .then(data=>{
+                this.setState({allData: data,loading: false});
+                    this.props.setInitialState(data);
         }).catch=(error)=>{
-            this.setState({error: error})
+            this.setState({error: error,loading:false})
         };
     }
 
     // SaveData = ({
     //     name,
-    //     avatar_url,
     //     following,
     //     followers,
-    //     html_url,
-    //     login,
     //     location,
-    //     message,
-    //     email,
-    //     url
     // }) => {
     //     this.setState({
     //         name:name, 
-    //         avatar:avatar_url,
     //         followers:followers, 
     //         following:following, 
     //         location:location, 
-    //         githubLink: html_url, 
-    //         loginName:login,
-    //         message:message,
-    //         email: email,
-    //         url:url
     //     })
-
         
     // }
 
@@ -255,68 +251,142 @@ class Home extends React.Component {
     //     return tags;
     // }
 
-    renderItem(data) {
-        return <TouchableOpacity key={data.item.id} style={{backgroundColor: 'transparent'}} onPress={()=>{}} >
-                    <View  style={styles.listItemContainer}>
-                        <Text style={styles.pokeItemHeader}>{data.item.login}</Text>
+    handleClick() {
+        const min = 1;
+        const max = 100;
+        const min2 = 50;
+        const max2 = 1;
+
+        const rand = Math.floor( min + Math.random() * (max - min));
+        const rand2 = Math.floor( min2 + Math.random() * (max2 - min2));
+        this.setState({ random: rand ,render2: rand2});
+      }
+
+    renderItem = ({item,index}) => {
+        return <TouchableOpacity key={item.id} style={{backgroundColor: '#808080',borderRadius: 20}} onPress={()=>{
+                    this.handleClick()
+                    this.setState({loginName:item.login, 
+                                    avatar:item.avatar_url, 
+                                    followers:item.followers, 
+                                    following:item.following, 
+                                    location:item.location, 
+                                    modalVisible: true
+                                })
+                }} 
+                >
+                   <View  style={styles.listItemContainer}>
+
+                        <Image source={{uri: item.avatar_url}} 
+                            style={styles.pokeImage}/>
+
+                        <Text style={styles.pokeItemHeader}>{item.login}</Text>
 
                         <TouchableHighlight
                             style={styles.openButton}
                             onPress={() => {
-                                Linking.openURL(data.item.html_url)
+                                Linking.openURL(item.html_url) 
                             }}
                         >                  
                             <Text style={styles.textStyle2}>Githib Profile</Text>
                         </TouchableHighlight>
 
-                        <Image source={{uri: data.item.avatar_url}} 
-                            style={styles.pokeImage}/>
                         
                     </View>
                     
                 </TouchableOpacity>
     }
 
+    renderFooter = () => {
+        if(!this.state.loading) return null
+        return (
+            <View style={{paddingVertical:20, borderTopWidth: 1, borderColor: '#CED0CE'}}>
+                <ActivityIndicator animating size='large'/>
+            </View>
+        )
+    }
+
+    handleSearch = (text) => {
+        const formattedQuery = text.toLowerCase();
+        const allData = _.filter(this.props.getUsersDatas, users => {
+            if(users.login.includes(formattedQuery)){
+                return true
+            }
+            return false
+        })
+        this.setState({allData, query: text});
+    }
+
     render(){
         return(
             
             <View  style={styles.container}>
-                <Text style={styles.TextHeading}>GitHub User</Text>
+                <Text style={styles.TextHeading} onPress={()=>{Alert.alert("Data",JSON.stringify(this.state.allData))}}>GitHub User</Text>
                 
                 <View style={styles.InputAndBtnP}> 
                     <TextInput 
-                        onChangeText={(value)=> this.setState({userName: value})} 
+                        onChangeText={this.handleSearch}
+                        value={this.state.text}
                         style={styles.TextInputStyling} 
-                        placeholder= "Github Search" 
+                        underlineColorAndroid="transparent"
+                        placeholder= "Search Here" 
                         placeholderTextColor= "#D9D8D9" >
 
                     </TextInput>
-
-                    <Button title='Search'  onPress={()=>{
-                        this.GetDataOnStore();
-                    }} />
                 </View>
 
                 
 
                     <View>
-                        {/* <Modal
-                            animationType="slide"
-                            isVisible={true}
-                            onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
-                            }}
-                        >
                         
-                            
-                        </Modal> */}
 
                         <FlatList
-                                data={this.props.getUsersDatas}
-                                renderItem={this.renderItem}
-                                keyExtractor={(item, index) => index.toString()} 
-                            />
+                            data={this.props.getUsersDatas}
+                            renderItem={this.renderItem}
+                            keyExtractor={(item, index) => index.toString()} 
+                            ListHeaderComponent={this.renderFooter}
+                        />
                     </View>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert("Modal has been closed.",()=>{
+                            this.setState({modalVisible: false});
+                        });
+                    }}
+                >
+                        <View style={styles.modalView}>
+                            <Image source={{ uri: this.state.avatar }} style={styles.modalImage} />
+
+                            <Text style={styles.modalTextName}>
+                                {this.state.loginName}
+                            </Text>
+                            <View style={{flexDirection: 'row',padding:15}} >
+                                <Text style={styles.modalText}>
+                                    followers: {this.state.random} 
+                                </Text>
+                                <Text style={styles.modalText}>
+                                    following: {this.state.render2}
+                                </Text>
+                            </View>
+                            
+                            <Text style={{color: '#fff',fontSize: 15}}>
+                                location: Privte{this.state.location}
+                            </Text>
+
+                            <TouchableHighlight
+                                style={{ backgroundColor: "#2196F3",width: '50%',height: 35,marginTop:5,alignItems: 'center',borderRadius: 20}}
+                                onPress={() => {
+                                    this.setState({modalVisible: false});
+                                }}
+                            >
+                                <Text style={styles.textStyle}>Close Modal</Text>
+                            </TouchableHighlight>
+                        </View>
+
+                    </Modal>
             </View>
         );
     }
