@@ -14,7 +14,7 @@ import {
     Linking,
     Dimensions,
     ActivityIndicator,
-    ToastAndroid
+    ToastAndroid,
 } from 'react-native';
 import { setInitialState } from "../../redux/Actions/Action";
 import { connect } from "react-redux";
