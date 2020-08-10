@@ -9,7 +9,7 @@ export default StyleSheet.create({
     },
 
     TextInputStyling: {
-        width: '97%',
+        width: '50%',
         borderWidth: 1,
         borderRadius: 10,
         height: 40,
@@ -43,7 +43,8 @@ export default StyleSheet.create({
     InputAndBtnP:{
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 10
+        marginVertical: 10,
+
     },
     FlatListStyle:{
         justifyContent: 'center',
@@ -150,6 +151,23 @@ export default StyleSheet.create({
         elevation: 5,
         alignSelf: 'center'
       },
+      modalViewOnSearch: {
+        marginVertical: width*0.5,
+        backgroundColor: "#505050",
+        borderRadius: 20,
+        alignItems: "center",
+        shadowColor: "#000",
+        width: '70%',
+        height: '40%',
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        alignSelf: 'center'
+      },
       modalTextName: {
           color: '#fff',
           fontSize: 25,
@@ -160,5 +178,10 @@ export default StyleSheet.create({
         fontSize: 20,
         padding: 15
       },
+      searchInput:{
+        padding: 10,
+        borderColor: '#CCC',
+        borderWidth: 1
+      }
 
 });
