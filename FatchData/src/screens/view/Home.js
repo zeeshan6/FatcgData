@@ -35,7 +35,7 @@ const request = new AdRequest();
 // Test id
 const instertialAd = firebase.admob().interstitial("ca-app-pub-3940256099942544/1033173712");
 // original id
-// const instertialAd = firebase.admob().interstitial("ca-app-pub-8396322895609535/7299407575");
+// const instertialAd = firebase.admob().interstitial("ca-app-pub-8396322895609535/7323118992");
 
 class Home extends React.Component {
     constructor(props) {
@@ -86,7 +86,7 @@ class Home extends React.Component {
                 this.setState({ error: error, loading: false })
             };
 
-        // firebase.admob().initialize("ca-app-pub-8396322895609535~2759921987");
+        firebase.admob().initialize("ca-app-pub-8396322895609535~8957255555");
         // if(!(__DEV__)){
             this.handleInstertialInterval = this.handleInstertial(this.state.instertialTime);
         // }
@@ -234,7 +234,25 @@ class Home extends React.Component {
                         keyExtractor={(item, index) => index.toString()}
                         ListHeaderComponent={this.renderFooter}
                     />
+
+                <Banner style={styles.ad}
+                    // unitId="ca-app-pub-8396322895609535/5058782261"
+                    // test id
+                    unitId="ca-app-pub-3940256099942544/6300978111"
+                    size={Banner.FULL_BANNER}
+                    request={request.build()}
+                    // onAdLoaded={() => {
+                    //     console.warn("ad loaded");
+                    // }}
+                    // onAdFailedToLoad={(err) => {
+                    //     console.warn("fail to load"+err);
+                    // }}
+                />
                 </View>
+
+                
+
+
 
                 <Modal
                     animationType="slide"
@@ -262,6 +280,8 @@ class Home extends React.Component {
                             </Text>
                         </View>
 
+                        
+
                         <Text style={{ color: '#fff', fontSize: 15 }}>
                             location: Privte{this.state.location}
                         </Text>
@@ -274,6 +294,19 @@ class Home extends React.Component {
                         >
                             <Text style={styles.textStyle}>Close Modal</Text>
                         </TouchableHighlight>
+                        <Banner style={styles.ad}
+                            // unitId="ca-app-pub-8396322895609535/7696144772"
+                            // test id
+                            unitId="ca-app-pub-3940256099942544/6300978111"
+                            size={Banner.FULL_BANNER}
+                            request={request.build()}
+                            // onAdLoaded={() => {
+                            //     console.warn("ad loaded");
+                            // }}
+                            // onAdFailedToLoad={(err) => {
+                            //     console.warn("fail to load"+err);
+                            // }}
+                        />
                     </View>
 
                 </Modal>
