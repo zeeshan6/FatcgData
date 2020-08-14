@@ -33,9 +33,9 @@ const request = new AdRequest();
 // // const videoAd = firebase.admob().rewarded('ca-app-pub-9879472653351292/4598361036');
 
 // Test id
-const instertialAd = firebase.admob().interstitial("ca-app-pub-3940256099942544/1033173712");
+// const instertialAd = firebase.admob().interstitial("ca-app-pub-3940256099942544/1033173712");
 // original id
-// const instertialAd = firebase.admob().interstitial("ca-app-pub-8396322895609535/7323118992");
+const instertialAd = firebase.admob().interstitial("ca-app-pub-8396322895609535/7323118992");
 
 class Home extends React.Component {
     constructor(props) {
@@ -295,9 +295,9 @@ class Home extends React.Component {
                             <Text style={styles.textStyle}>Close Modal</Text>
                         </TouchableHighlight>
                         <Banner style={styles.ad}
-                            // unitId="ca-app-pub-8396322895609535/7696144772"
+                            unitId="ca-app-pub-8396322895609535/7696144772"
                             // test id
-                            unitId="ca-app-pub-3940256099942544/6300978111"
+                            // unitId="ca-app-pub-3940256099942544/6300978111"
                             size={Banner.FULL_BANNER}
                             request={request.build()}
                             // onAdLoaded={() => {
