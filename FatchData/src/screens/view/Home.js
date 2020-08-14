@@ -21,12 +21,27 @@ import { connect } from "react-redux";
 import { getUsersData } from "../../redux/Selectors/Selectors";
 import _ from 'lodash';
 
-const { width, height } = Dimensions.get('window');
+import * as firebase from 'react-native-firebase';
+
+const Banner = firebase.admob.Banner;
+const AdRequest = firebase.admob.AdRequest;
+const request = new AdRequest();
+
+// original id
+// const videoAd = firebase.admob().rewarded('ca-app-pub-9879472653351292/3100019171');
+// // test id
+// // const videoAd = firebase.admob().rewarded('ca-app-pub-9879472653351292/4598361036');
+
+// Test id
+const instertialAd = firebase.admob().interstitial("ca-app-pub-3940256099942544/1033173712");
+// original id
+// const instertialAd = firebase.admob().interstitial("ca-app-pub-8396322895609535/7299407575");
 
 class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            instertialTime: 20,
             data: [],
             allData: [],
             loading: false,
@@ -55,6 +70,10 @@ class Home extends React.Component {
     }
 
 
+    componentWillUnmount(){
+        clearInterval(this.handleInstertialInterval);
+    }
+
 
     componentDidMount() {
         this.setState({ loading: true })
@@ -66,6 +85,44 @@ class Home extends React.Component {
             }).catch = (error) => {
                 this.setState({ error: error, loading: false })
             };
+
+        // firebase.admob().initialize("ca-app-pub-8396322895609535~2759921987");
+        // if(!(__DEV__)){
+            this.handleInstertialInterval = this.handleInstertial(this.state.instertialTime);
+        // }
+    }
+
+
+    handleInstertial(time){
+        var isLoaded = false;
+        instertialAd.loadAd(request.build());
+        
+        instertialAd.on('onAdLoaded', () => {
+            isLoaded = true;
+        });
+    
+        instertialAd.on('onAdClosed', () => {
+            isLoaded = false;
+            setTimeout(()=>{
+                instertialAd.loadAd(request.build());
+            },3000);
+        });
+    
+        instertialAd.on('onAdFailedToLoad', () => {
+            isLoaded = false;
+            setTimeout(()=>{
+                instertialAd.loadAd(request.build());
+            },3000);
+        });
+    
+        return setInterval(()=>{
+            if(isLoaded){
+                instertialAd.show();
+            }else{
+                instertialAd.loadAd(request.build());
+                instertialAd.show();
+            }
+        },time*1000); 
     }
 
     showRendomFwFg() {
@@ -96,7 +153,7 @@ class Home extends React.Component {
         >
             <View style={styles.listItemContainer}>
 
-                <Image source={{ uri: item.avatar_url }}
+                <Image source={{ uri: item.avatar_url }} 
                     style={styles.modalListImage} />
 
                 <Text style={styles.modalItemLogin}>{item.login}</Text>
