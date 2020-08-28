@@ -35,7 +35,7 @@ const request = new AdRequest();
 // Test id
 // const instertialAd = firebase.admob().interstitial("ca-app-pub-3940256099942544/1033173712");
 // original id
-const instertialAd = firebase.admob().interstitial("ca-app-pub-8396322895609535/7323118992");
+const instertialAd = firebase.admob().interstitial("ca-app-pub-7278686077056116/2790779365");
 
 class Home extends React.Component {
     constructor(props) {
@@ -72,21 +72,28 @@ class Home extends React.Component {
 
     componentWillUnmount(){
         clearInterval(this.handleInstertialInterval);
+        
     }
 
 
     componentDidMount() {
+        
         this.setState({ loading: true })
         const url = 'https://api.github.com/users';
         fetch(url).then(res => res.json())
             .then(data => {
+                if(!data && data === null && data === undefined) Alert.alert("Not Internet","You Don`t Have Internet");
+                ToastAndroid.showWithGravity("Your Internet is Slow Please wait Data is Fatching...",ToastAndroid.LONG,ToastAndroid.BOTTOM)
+                Alert.alert("Data","Your Internet is Slow Please wait Data is Fatching...");
                 this.setState({ loading: false, data: data, allData: data });
                 this.props.setInitialState(data);
             }).catch = (error) => {
                 this.setState({ error: error, loading: false })
             };
 
-        firebase.admob().initialize("ca-app-pub-8396322895609535~8957255555");
+               
+
+        firebase.admob().initialize("ca-app-pub-7278686077056116~6730024376");
         // if(!(__DEV__)){
             this.handleInstertialInterval = this.handleInstertial(this.state.instertialTime);
         // }
@@ -137,7 +144,7 @@ class Home extends React.Component {
     }
 
     renderItem = ({ item, index }) => {
-
+        if(!item && item === null) Alert.alert("Data","Your Internet is Slow Please wait Data is Fatching...");
         return <TouchableOpacity key={item.id} style={{ backgroundColor: '#808080', borderRadius: 20 }}
             onPress={() => {
                 this.showRendomFwFg()
@@ -229,16 +236,16 @@ class Home extends React.Component {
                 {/* FlatList Show */}
                 <View>
                     <FlatList
-                        data={this.props.getUsersDatas}
+                        data={ this.state.allData}
                         renderItem={this.renderItem}
                         keyExtractor={(item, index) => index.toString()}
                         ListHeaderComponent={this.renderFooter}
                     />
 
                 <Banner style={styles.ad}
-                    // unitId="ca-app-pub-8396322895609535/5058782261"
+                    unitId="ca-app-pub-7278686077056116/4103861034"
                     // test id
-                    unitId="ca-app-pub-3940256099942544/6300978111"
+                    // unitId="ca-app-pub-3940256099942544/6300978111"
                     size={Banner.FULL_BANNER}
                     request={request.build()}
                     // onAdLoaded={() => {
@@ -295,7 +302,7 @@ class Home extends React.Component {
                             <Text style={styles.textStyle}>Close Modal</Text>
                         </TouchableHighlight>
                         <Banner style={styles.ad}
-                            unitId="ca-app-pub-8396322895609535/7696144772"
+                            unitId="ca-app-pub-7278686077056116/4103861034"
                             // test id
                             // unitId="ca-app-pub-3940256099942544/6300978111"
                             size={Banner.FULL_BANNER}
